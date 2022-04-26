@@ -27,6 +27,10 @@ function buttonGenerator() {
         funcBtn.className = 'func-btn';
         if (arrayFunc[i] === arrayFunc[3]) {
             funcBtn.classList.replace('func-btn', 'opr-btn');
+        } else if (arrayFunc[i] === arrayFunc[0]) {
+            funcBtn.classList.add('cancel-btn');
+        } else if (arrayFunc[i] === arrayFunc[1]) {
+            funcBtn.classList.add('del-btn');
         }
         funcDisplay.append(funcBtn);
     }
@@ -53,6 +57,8 @@ const display2 = document.querySelector('.display2');
 const numButtons = document.querySelectorAll('.num-btn');
 const operatorButtons = document.querySelectorAll('.opr-btn');
 const equalOperator = document.querySelector('.equal-btn');
+const cancelFunc = document.querySelector('.cancel-btn');
+const delFunc = document.querySelector('.del-btn');
 
 let digitsDisplay = '';
 let oprDisplay = '';
@@ -76,8 +82,6 @@ equalOperator.addEventListener('click', function(e) {
     num2 = parseInt(b);
     
     operateMethod(num1, num2, opr);
-    console.log(result)
-    console.log(typeof(result))
 })
 
 operatorButtons.forEach(oprBtn => {
@@ -88,14 +92,30 @@ operatorButtons.forEach(oprBtn => {
             display1.textContent += `${digitsDisplay} ${this.textContent} `;
             digitsDisplay = '';
             
+            
         } else {
             void(0);
         }
     })
 })
 
+cancelFunc.addEventListener('click', function(e) {
+    digitsDisplay = '';
+    oprDisplay = '';
+    a = '';
+    b = '';
+    opr = '';
+    result = '';
+    display1.textContent = digitsDisplay;
+    display2.textContent = digitsDisplay;
+})
+
+delFunc.addEventListener('click', function(e) {
+    digitsDisplay = digitsDisplay.slice(0, -1);
+    display2.textContent = digitsDisplay;
+})
+
 function operateMethod(a, b, opr) {
-    
     if (opr === '+') {
         result = calc.add(a, b);
         display2.textContent = result;
