@@ -63,61 +63,113 @@ const delFunc = document.querySelector('.del-btn');
 let digitsDisplay = '';
 let oprDisplay = '';
 
-let a = '';
+let a;
 let b = '';
+let num1;
+let num2;
 let opr = '';
 let result;
+let isEqualRan;
 
+function integerFix() {
+    (Math.round(a * 100) / 100).toFixed(2);
+    (Math.round(b * 100) / 100).toFixed(2);
+    num1 = parseFloat(a);
+    num2 = parseFloat(b);
+    (Math.round(result * 100) / 100).toFixed(2);
+}
 
 numButtons.forEach(numBtn  => {
     numBtn.addEventListener('click', function(e) {
+        if (result == true && isEqualRan == false) {
+            cancel();
+        }
         digitsDisplay += this.textContent;
         display2.textContent = digitsDisplay;
+        if (opr) {
+            b = digitsDisplay;
+        }
+        
     })
 })
 
 equalOperator.addEventListener('click', function(e) {
-    b += digitsDisplay;
-    num1 = parseInt(a);
-    num2 = parseInt(b);
-    
+    isEqualRan = true;
+    b = digitsDisplay;
+    integerFix();
     operateMethod(num1, num2, opr);
 })
 
 operatorButtons.forEach(oprBtn => {
     oprBtn.addEventListener('click', function(e) {
-        opr = this.textContent;
-        if (digitsDisplay) {
+        
+        if (a == undefined) {
+            opr = this.textContent;    
             a = digitsDisplay;
             display1.textContent += `${digitsDisplay} ${this.textContent} `;
-            digitsDisplay = '';
-            
-            
-        } else {
-            void(0);
+        }
+        digitsDisplay = '';
+        if (b) {
+
+            display1.textContent += `${b} ${this.textContent} `;
+            integerFix();
+            operateMethod(num1, num2, opr)
+            a = result;
+            opr = this.textContent;
+            if(isEqualRan == true) {
+                display1.textContent += `${result} `;
+                integerFix();
+                operateMethod(num1, num2, opr)
+                a = result;
+                opr = this.textContent;
+                isEqualRan = false;
+                console.log(isEqualRan) 
+            }
         }
     })
 })
 
-cancelFunc.addEventListener('click', function(e) {
+const cancel = () => {
+    display1.textContent = '';
+    display2.textContent = '';
     digitsDisplay = '';
     oprDisplay = '';
-    a = '';
+    a = undefined;
     b = '';
     opr = '';
-    result = '';
-    display1.textContent = digitsDisplay;
-    display2.textContent = digitsDisplay;
+    result = 0;
+    isEqualRan = false;
+}
+
+cancelFunc.addEventListener('click', function(e) {
+    cancel();
 })
 
 delFunc.addEventListener('click', function(e) {
-    digitsDisplay = digitsDisplay.slice(0, -1);
-    display2.textContent = digitsDisplay;
+    if (b) {
+        digitsDisplay = digitsDisplay.slice(0, -1);
+        display2.textContent = digitsDisplay;
+    } else {
+        digitsDisplay = digitsDisplay.slice(0, -1);
+        display2.textContent = digitsDisplay;
+    }
 })
 
 function operateMethod(a, b, opr) {
-    if (opr === '+') {
+    if (b === 0 && opr === '/') {
+        cancel();
+        display1.textContent = '';
+        display2.textContent = 'nooooo'
+    } else if (opr === '+') {
         result = calc.add(a, b);
+
+        console.log('');
+        console.log("check opr" + opr)
+        console.log("num1 " + num1)
+        console.log("num2 " + num2)
+        console.log("a " + a)
+        console.log("b " + b)
+        console.log("result " + result);
         display2.textContent = result;
     } else if (opr === '-') {
         result = calc.subtract(a,b);
@@ -130,65 +182,6 @@ function operateMethod(a, b, opr) {
         display2.textContent = result;
     }
 }
-
-
-
-//Simple Operation
-    //calc takes user input
-        //calc takes num1 from user
-            //calc stores and display num1
-        //calc takes operator from user
-            //calc display num1 and operator(+) inputs in another display
-        //calc takes num2 from user
-            //display num 2
-            //IF calc got another operator(+)
-                //run the last operator function
-                    //produce result
-                //display the current operator(+)
-            //IF ELSE calc got EQUAL operator
-                //run the last operator function
-                    //show EQUAL sign 
-                    //show result
-//
-
-
-//calc process
-    //clicking number button
-        //run the NUMBER EVENT1
-            //display the each clicked number button on DISPLAY 2
-            //concat every number button register to a variable (stores num1)
-            //assign the num1 value to function argument ('a')
-    //clicking an operator button
-        //check for num1 value
-            //IF num1 value is present / returns TRUE
-                //display (num1) and the clicked operator button on DISPLAY 2
-                //run the code below (OPERATE METHOD)
-            //ELSE do nothing
-        //run OPERATE METHOD
-            //check for num2 or 'b' value
-                //IF num2 or 'b' value is UNDEFINED
-                    //run the OPERATE EVENT
-                        //check for the operator function
-                        //register the operator and its function
-                //ELSE IF num2 or 'b' value returns TRUE
-                    //run the OPERATE EVENT
-                    //run the OPERATOR FUNCTION
-                        //takes num1/num2 as argument (a,b)
-                        //run the equivalent OPERATOR FUNCTION checked by the OPERATE EVENT
-                        //show result
-                            //assign result to num1 or argument 'a'
-    //clicking the EQUAL operator
-        //check for num1 & num2 value
-            //IF num1 && num2 returns FALSE/UNDEFINED
-                //do nothing
-            //IF num1 && num2 returns TRUE
-                //run OPERATE METHOD
-
-
-
-                
-        
-
 
 
 
