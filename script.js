@@ -15,8 +15,9 @@ function buttonGenerator() {
     for (i = 0; i < arrayOperator.length; i++) {
         const operatorBtn = document.createElement('button');
         operatorBtn.textContent = arrayOperator[i];
-        operatorBtn.className = 'opr-btn';
+        operatorBtn.classList.add('opr-btn', 'operator-func');
         if (arrayOperator[i] === arrayOperator [3]) {
+            operatorBtn.classList.remove('operator-func');
             operatorBtn.classList.add('equal-btn');
         }
         operatorDisplay.append(operatorBtn);
@@ -49,13 +50,16 @@ const calc = {
     },
     divide: function (a, b) {
         return a/b;
+    },
+    percent: function() {
+        
     }
 }
 
 const display1 = document.querySelector('.display1');
 const display2 = document.querySelector('.display2');
 const numButtons = document.querySelectorAll('.num-btn');
-const operatorButtons = document.querySelectorAll('.opr-btn');
+const operatorButtons = document.querySelectorAll('.operator-func');
 const equalOperator = document.querySelector('.equal-btn');
 const cancelFunc = document.querySelector('.cancel-btn');
 const delFunc = document.querySelector('.del-btn');
@@ -69,7 +73,7 @@ let num1;
 let num2;
 let opr = '';
 let result;
-let isEqualRan;
+let isEqualRan = '';
 
 function integerFix() {
     (Math.round(a * 100) / 100).toFixed(2);
@@ -81,9 +85,9 @@ function integerFix() {
 
 numButtons.forEach(numBtn  => {
     numBtn.addEventListener('click', function(e) {
-        if (result == true && isEqualRan == false) {
-            cancel();
-        }
+        // if (isEqualRan) {
+        //     cancel();
+        // }
         digitsDisplay += this.textContent;
         display2.textContent = digitsDisplay;
         if (opr) {
@@ -94,38 +98,42 @@ numButtons.forEach(numBtn  => {
 })
 
 equalOperator.addEventListener('click', function(e) {
-    isEqualRan = true;
-    b = digitsDisplay;
-    integerFix();
-    operateMethod(num1, num2, opr);
+    if (b === '') {
+        void(0);
+    } else {
+        b = digitsDisplay;
+        integerFix();
+        operateMethod(num1, num2, opr);
+        display1.textContent += `${b} =`
+        isEqualRan = true;
+    }
 })
 
 operatorButtons.forEach(oprBtn => {
     oprBtn.addEventListener('click', function(e) {
-        
-        if (a == undefined) {
-            opr = this.textContent;    
-            a = digitsDisplay;
-            display1.textContent += `${digitsDisplay} ${this.textContent} `;
-        }
-        digitsDisplay = '';
-        if (b) {
-
-            display1.textContent += `${b} ${this.textContent} `;
-            integerFix();
-            operateMethod(num1, num2, opr)
+        if (isEqualRan) {
+            display2.textContent = '';
             a = result;
             opr = this.textContent;
-            if(isEqualRan == true) {
-                display1.textContent += `${result} `;
+            display1.textContent = '';
+            display1.textContent = `${a} ${this.textContent}`
+            isEqualRan = false;
+        } else {
+            if (a == undefined) {
+                opr = this.textContent;    
+                a = digitsDisplay;
+                display1.textContent += `${digitsDisplay} ${this.textContent} `;
+            }
+            digitsDisplay = '';
+            if (b) {
+                display1.textContent += `${b} ${this.textContent} `;
                 integerFix();
                 operateMethod(num1, num2, opr)
                 a = result;
                 opr = this.textContent;
-                isEqualRan = false;
-                console.log(isEqualRan) 
             }
         }
+        
     })
 })
 
@@ -149,6 +157,8 @@ delFunc.addEventListener('click', function(e) {
     if (b) {
         digitsDisplay = digitsDisplay.slice(0, -1);
         display2.textContent = digitsDisplay;
+        digitsDisplay = display2.textContent;
+        b = digitsDisplay;
     } else {
         digitsDisplay = digitsDisplay.slice(0, -1);
         display2.textContent = digitsDisplay;
@@ -158,32 +168,46 @@ delFunc.addEventListener('click', function(e) {
 function operateMethod(a, b, opr) {
     if (b === 0 && opr === '/') {
         cancel();
-        display1.textContent = '';
         display2.textContent = 'nooooo'
     } else if (opr === '+') {
         result = calc.add(a, b);
-
-        console.log('');
-        console.log("check opr" + opr)
-        console.log("num1 " + num1)
-        console.log("num2 " + num2)
-        console.log("a " + a)
-        console.log("b " + b)
-        console.log("result " + result);
-        display2.textContent = result;
+        if (!result) {
+            display1.textContent = '';
+            display2.textContent = 'Error'
+        } else {
+            display2.textContent = result;
+        }
     } else if (opr === '-') {
         result = calc.subtract(a,b);
-        display2.textContent = result;
+        if (!result) {
+            display1.textContent = '';
+            display2.textContent = 'Error'
+        } else {
+            console.log(result)
+            display2.textContent = result;
+        }
     } else if (opr === '*') {
         result = calc.multiply(a,b)
-        display2.textContent = result;
+        if (!result) {
+            display1.textContent = '';
+            display2.textContent = 'Error'
+        } else {
+            console.log(result)
+            display2.textContent = result;
+        }
     } else if (opr === '/') {
         result = calc.divide(a,b)
-        display2.textContent = result;
+        if (!result) {
+            display1.textContent = '';
+            display2.textContent = 'Error'
+        } else {
+            console.log(result)
+            display2.textContent = result;
+        }
     }
 }
 
 
-
-
+//Operator Process
+    
 
