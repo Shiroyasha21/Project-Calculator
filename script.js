@@ -71,27 +71,21 @@ let a;
 let b = '';
 let num1;
 let num2;
-let factorial;
 let opr = '';
 let result;
 let isEqualRan = '';
-let factorClicked = '';
 
 numButtons.forEach(numBtn  => {
     numBtn.addEventListener('click', function(e) {
-        if (factorClicked) {
-            void(0);
+        if (isEqualRan) {
+            cancel();
+            digitsDisplay += this.textContent;
+            display2.textContent = digitsDisplay;
         } else {
-            if (isEqualRan) {
-                cancel();
-                digitsDisplay += this.textContent;
-                display2.textContent = digitsDisplay;
-            } else {
-                digitsDisplay += this.textContent;
-                display2.textContent = digitsDisplay;
-                if (opr) {
-                    b = digitsDisplay;
-                }
+            digitsDisplay += this.textContent;
+            display2.textContent = digitsDisplay;
+            if (opr) {
+                b = digitsDisplay;
             }
         }
     })
@@ -121,35 +115,17 @@ operatorButtons.forEach(oprBtn => {
             isEqualRan = false;
         } else {
             if (a == undefined) {
-                if (factorClicked) {
-                    opr = this.textContent;
-                    display1.textContent += `${digitsDisplay}! ${this.textContent} `;
-                    a = result;
-                    factorCheck = false;
-                    factorClicked = false;
-                } else {
-                    opr = this.textContent;    
-                    a = digitsDisplay;
-                    display1.textContent += `${digitsDisplay} ${this.textContent} `;
-                }
+                opr = this.textContent;    
+                a = digitsDisplay;
+                display1.textContent += `${digitsDisplay} ${this.textContent} `;
             }
             digitsDisplay = '';
             if (b) {
-                if (factorClicked) {
-                    display1.textContent += `${factorial}! ${this.textContent} `;
-                    integerFix();
-                    operateMethod(num1, num2, opr);
-                    a = result;
-                    opr = this.textContent;
-                    factorCheck = false;
-                    factorClicked = false;
-                } else {
-                    display1.textContent += `${b} ${this.textContent} `;
-                    integerFix();
-                    operateMethod(num1, num2, opr);
-                    a = result;
-                    opr = this.textContent;
-                }
+                display1.textContent += `${b} ${this.textContent} `;
+                integerFix();
+                operateMethod(num1, num2, opr);
+                a = result;
+                opr = this.textContent;
             }
         }
     })
@@ -169,8 +145,6 @@ const cancel = () => {
     opr = '';
     result = 0;
     isEqualRan = false;
-    factorClicked = '';
-    factorCheck = '';
 }
 
 delFunc.addEventListener('click', function(e) {
@@ -192,9 +166,7 @@ signFunc.addEventListener('click', function(e) {
         digitsDisplay = -(digitsDisplay);
         display2.textContent = digitsDisplay;
     }
-    
 })
-
 
 function integerFix() {
     (Math.round(a * 100) / 100).toFixed(2);
@@ -222,36 +194,4 @@ function operateMethod(a, b, opr) {
         display2.textContent = result;
     }
 }
-
-
-// factorFunc.addEventListener('click', function(e) {
-//     if (digitsDisplay == false) {
-//         void(0);
-//     } else {
-//         factorClicked = true;
-//         factorCheck = true;
-//         if (opr) {
-//             factorial = digitsDisplay;
-//             display2.textContent = `${factorial}! `
-//             num = factorial;
-//             integerFix();
-//             operateMethod(num);
-//             b = result;
-//         } else {
-//             factorial = digitsDisplay;
-//             display2.textContent = `${factorial}! `
-//             num = factorial;
-//             integerFix();
-//             factorMethod(num);
-//         }
-//     }
-// })
-
-// function factorMethod (num) {
-//     if (num === 0 || num === 1) return 1;
-//         for (var i = num - 1; i >= 1; i--) {
-//             num *= i;
-//         }
-//         result = num;
-// }
 
