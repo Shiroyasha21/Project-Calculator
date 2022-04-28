@@ -9,7 +9,8 @@ function buttonGenerator() {
     for (i = 1, j = 97; i < 10, j < 106; i++, j++) {
         const numButtons = document.createElement('button');
         numButtons.textContent = i;
-        numButtons.className = 'num-btn';
+        numButtons.classList.add('num-btn');
+        numButtons.classList.add('numbers-btn');
         numButtons.setAttribute('data-key', [j]);
         numDisplay.append(numButtons);
     }
@@ -81,7 +82,8 @@ const calc = {
 
 const display1 = document.querySelector('.display1');
 const display2 = document.querySelector('.display2');
-const numButtons = document.querySelectorAll('.num-btn');
+const numButtons = document.querySelectorAll('.numbers-btn');
+const dotBtn = document.querySelector('#dot-btn')
 const operatorButtons = document.querySelectorAll('.operator-func');
 const equalOperator = document.querySelector('.equal-btn');
 const cancelFunc = document.querySelector('.cancel-btn');
@@ -101,6 +103,7 @@ let isEqualRan = '';
 
 numButtons.forEach(numBtn  => {
     numBtn.addEventListener('click', function(e) {
+        
         if (isEqualRan) {
             cancel();
             digitsDisplay += this.textContent;
@@ -113,6 +116,24 @@ numButtons.forEach(numBtn  => {
             }
         }
     })
+})
+
+dotBtn.addEventListener('click', function(e) {
+    if (digitsDisplay.indexOf('.') > -1) {
+        void(0);
+    } else {
+        if (isEqualRan) {
+            cancel();
+            digitsDisplay += this.textContent;
+            display2.textContent = digitsDisplay;
+        } else {
+            digitsDisplay += this.textContent;
+            display2.textContent = digitsDisplay;
+            if (opr) {
+                b = digitsDisplay;
+            }
+        }
+    }
 })
 
 equalOperator.addEventListener('click', function(e) {
