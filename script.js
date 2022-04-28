@@ -6,12 +6,12 @@ const arrayOperator = ['x', '-', '+', '=']
 const arrayFunc = ['C', 'Del', '-/+', '/']
 
 function buttonGenerator() {
-    for (i = 1, j = 97; i < 10, j < 106; i++, j++) {
+    for (i = 1; i < 10; i++) {
         const numButtons = document.createElement('button');
         numButtons.textContent = i;
         numButtons.classList.add('num-btn');
         numButtons.classList.add('numbers-btn');
-        numButtons.setAttribute('data-key', [j]);
+        numButtons.setAttribute('data-key', `Numpad${i}`);
         numDisplay.append(numButtons);
     }
     for (i = 0; i < arrayOperator.length; i++) {
@@ -21,13 +21,13 @@ function buttonGenerator() {
         if (arrayOperator[i] === arrayOperator [3]) {
             operatorBtn.classList.remove('operator-func');
             operatorBtn.classList.add('equal-btn');
-            operatorBtn.setAttribute('data-key', '13');
+            operatorBtn.setAttribute('data-key', 'NumpadEnter');
         } else if (arrayOperator[i] === arrayOperator [0]) {
-            operatorBtn.setAttribute('data-key', '106');
+            operatorBtn.setAttribute('data-key', 'NumpadMultiply');
         }  else if (arrayOperator[i] === arrayOperator [1]) {
-            operatorBtn.setAttribute('data-key', '109');
+            operatorBtn.setAttribute('data-key', 'NumpadSubtract');
         }  else if (arrayOperator[i] === arrayOperator [2]) {
-            operatorBtn.setAttribute('data-key', '107');
+            operatorBtn.setAttribute('data-key', 'NumpadAdd');
         }
         operatorDisplay.append(operatorBtn);
     }
@@ -38,15 +38,14 @@ function buttonGenerator() {
         if (arrayFunc[i] === arrayFunc[3]) {
             funcBtn.classList.replace('func-btn', 'opr-btn');
             funcBtn.classList.add('operator-func');
+            funcBtn.setAttribute('data-key', 'NumpadDivide');
         } else if (arrayFunc[i] === arrayFunc[0]) {
             funcBtn.classList.add('cancel-btn');
         } else if (arrayFunc[i] === arrayFunc[1]) {
             funcBtn.classList.add('del-btn');
-            funcBtn.setAttribute('data-key', '8');
+            funcBtn.setAttribute('data-key', 'Backspace');
         } else if (arrayFunc[i] === arrayFunc[2]) {
             funcBtn.classList.add('sign-btn');
-        } else if (arrayFunc[i] === arrayFunc[3]) {
-            funcBtn.setAttribute('data-key', '111');
         }
         funcDisplay.append(funcBtn);
     }
@@ -90,8 +89,10 @@ const cancelFunc = document.querySelector('.cancel-btn');
 const delFunc = document.querySelector('.del-btn');
 const signFunc = document.querySelector('.sign-btn');
 
+
 let digitsDisplay = '';
 let oprDisplay = '';
+let kbKey;
 
 let a;
 let b = '';
@@ -100,6 +101,23 @@ let num2;
 let opr = '';
 let result;
 let isEqualRan = '';
+
+window.addEventListener('keydown', function(e) {
+    const kbFunc2 = document.querySelector(`button[data-key = "${e.code}"]`);
+    if (kbFunc2) {
+        console.log(this)
+        console.log(kbFunc2)
+    }
+});
+
+
+
+
+
+
+
+
+
 
 numButtons.forEach(numBtn  => {
     numBtn.addEventListener('click', function(e) {
