@@ -1,6 +1,62 @@
 body {
-    background-color: #546e7a;
+    background-color: #121212;
 }
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    color: white;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    font-size: 22px;
+}
+
+a {
+    color: white;
+}
+
+a:link {
+    text-decoration: none;
+}
+  
+a:visited {
+    text-decoration: none;
+}
+  
+a:hover {
+    text-decoration: underline;
+}
+  
+a:active {
+    text-decoration: underline;
+}
+
+
+.github-button {
+    border: none;
+    border-style: none;
+    background: none;
+    cursor: pointer;
+    
+}
+
+.github-button:hover {
+    transform: scale(1.25);
+}
+
+.github-button:active {
+    transform: translateY(1.5px);
+}
+
+img {
+    width: 30px;
+    height: 30px;
+}
+
+
 .container {
     display: flex;
     justify-content: center;
@@ -14,13 +70,13 @@ body {
 }
 
 .calc {
-    background-color: #616161;
+    background-color: #1F1B24;
     display: flex;
     align-items: center;
     flex-direction: column;
     margin-top: 50px;
     border-style: solid;
-    border-color: #fda172;
+    border-color: #BB86FC;
     border-radius: 3%;
     width: 530px;
     height: 660px;
@@ -31,9 +87,9 @@ body {
     display: flex;
     align-items: flex-end;
     flex-direction: column;
-    background-color: black;
+    background-color: #121212;
     border-style: solid;
-    border-color: #FFC594;
+    border-color: #BB86FC;
     width: 450px;
     height: 120px;
     margin-top: 35px;
@@ -46,7 +102,7 @@ body {
     justify-content: flex-end;
     flex: 1 1;
     font-size: 20px;
-    color: white;
+    color: #03DAC6;
     margin-top: 5px;
     width: 435px;
     height: 90px;
@@ -59,7 +115,7 @@ body {
     height: 65px;
     margin-top: 15px;
     font-size: 65px;
-    color: yellow;
+    color: #FFFFFF;
 }
 
 .btn-area {
@@ -96,9 +152,10 @@ body {
 
 .num-btn {
     border: none;
-    background-color: #616161;
+    background-color: #1F1B24;
     color: white;
     font-size: 25px;
+    font-weight: bolder;
     flex: 1 1 auto;
     width: 28%;
     height: 25%;
@@ -112,9 +169,9 @@ body {
 .opr-btn,
 .func-btn {
     border: none;
-    color: #FDA172;
+    color: #03DAC6;
     font-size: 25px;
-    background-color: #616161;
+    background-color: #1F1B24;
     flex: 1 1 auto;
 }
 
