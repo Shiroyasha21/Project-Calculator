@@ -55,28 +55,48 @@ buttonGenerator();
 const calc = {
     add: function (a, b) {
         if (Number.isInteger(a + b)) {
+            let answer = a + b;
+            let length = Math.max(Math.floor(Math.log10(Math.abs(answer))), 0) + 1;
+            if (length > 8) {
+                return answer.toExponential();
+            }
             return a + b;
         }
         return (Math.round((a+b) * 100) / 100).toFixed(2);
     },
     subtract: function (a, b) {
         if (Number.isInteger(a - b)) {
+            let answer = a - b;
+            let length = Math.max(Math.floor(Math.log10(Math.abs(answer))), 0) + 1;
+            if (length > 8) {
+                return answer.toExponential();
+            }
             return a - b;
         }
         return (Math.round((a-b) * 100) / 100).toFixed(2);
     },
     multiply: function (a, b) {
         if (Number.isInteger(a * b)) {
+            let answer = a * b;
+            let length = Math.max(Math.floor(Math.log10(Math.abs(answer))), 0) + 1;
+            if (length > 8) {
+                return answer.toExponential();
+            }
             return a * b;
         }
         return (Math.round((a*b) * 100) / 100).toFixed(2);
     },
     divide: function (a, b) {
         if (Number.isInteger(a / b)) {
+            let answer = a / b;
+            let length = Math.max(Math.floor(Math.log10(Math.abs(answer))), 0) + 1;
+            if (length > 8) {
+                return answer.toExponential();
+            }
             return a / b;
         }
         return (Math.round((a/b) * 100) / 100).toFixed(2);
-    },
+    }
 }
 
 const display1 = document.querySelector('.display1');
@@ -88,7 +108,6 @@ const equalOperator = document.querySelector('.equal-btn');
 const cancelFunc = document.querySelector('.cancel-btn');
 const delFunc = document.querySelector('.del-btn');
 const signFunc = document.querySelector('.sign-btn');
-
 
 let digitsDisplay = '';
 let oprDisplay = '';
@@ -102,41 +121,48 @@ let opr = '';
 let result;
 let isEqualRan = '';
 
+const numArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const operatorArray = ['/', 'x', '-', '+'];
+
 window.addEventListener('keydown', function(e) {
-    const kbFunc2 = document.querySelector(`button[data-key = "${e.code}"]`);
-    if (kbFunc2) {
-        console.log(this)
-        console.log(kbFunc2)
+    const keyboardFunc = document.querySelector(`button[data-key = "${e.code}"]`);
+    if (numArray.includes(keyboardFunc.textContent)) {
+        this.textContent = keyboardFunc.textContent;
+        registerNumBtn();
+    } else if (operatorArray.includes(keyboardFunc.textContent)) {
+        this.textContent = keyboardFunc.textContent;
+        registerOperatorBtn();
+    } else if (keyboardFunc.textContent === '=') {
+        equalOperate();
+    } else if (keyboardFunc.textContent === '.') {
+        this.textContent = keyboardFunc.textContent;
+        registerDotBtn();
+    } else if (keyboardFunc.textContent === 'Del') {
+        deleteNum();
     }
 });
 
-
-
-
-
-
-
-
-
-
 numButtons.forEach(numBtn  => {
-    numBtn.addEventListener('click', function(e) {
-        
-        if (isEqualRan) {
-            cancel();
-            digitsDisplay += this.textContent;
-            display2.textContent = digitsDisplay;
-        } else {
-            digitsDisplay += this.textContent;
-            display2.textContent = digitsDisplay;
-            if (opr) {
-                b = digitsDisplay;
-            }
-        }
-    })
+    numBtn.addEventListener('click', registerNumBtn)
 })
 
-dotBtn.addEventListener('click', function(e) {
+function registerNumBtn () {
+    if (isEqualRan) {
+        cancel();
+        digitsDisplay += this.textContent;
+        display2.textContent = digitsDisplay;
+    } else {
+        digitsDisplay += this.textContent;
+        display2.textContent = digitsDisplay;
+        if (opr) {
+            b = digitsDisplay;
+        }
+    }
+}
+
+dotBtn.addEventListener('click', registerDotBtn);
+
+function registerDotBtn () {
     if (digitsDisplay.indexOf('.') > -1) {
         void(0);
     } else {
@@ -152,53 +178,59 @@ dotBtn.addEventListener('click', function(e) {
             }
         }
     }
-})
+}
 
-equalOperator.addEventListener('click', function(e) {
-    if (b === '') {
+equalOperator.addEventListener('click', equalOperate);
+
+function equalOperate () {
+    if (display1.textContent.indexOf('=') > -1) {
         void(0);
     } else {
-        b = digitsDisplay;
-        integerFix();
-        operateMethod(num1, num2, opr);
-        display1.textContent += `${b} =`;
-        isEqualRan = true;
+        if (b === '') {
+            void(0);
+        } else {
+            b = digitsDisplay;
+            integerFix();
+            operateMethod(num1, num2, opr);
+            display1.textContent += `${b} =`;
+            isEqualRan = true;
+        }
     }
-})
+}
 
 operatorButtons.forEach(oprBtn => {
-    oprBtn.addEventListener('click', function(e) {
-        if (isEqualRan) {
-            display2.textContent = '';
+    oprBtn.addEventListener('click', registerOperatorBtn)
+})
+
+function registerOperatorBtn () {
+    if (isEqualRan) {
+        display2.textContent = '';
+        a = result;
+        opr = this.textContent;
+        digitsDisplay = '';
+        display1.textContent = '';
+        display1.textContent = `${a} ${this.textContent}`
+        isEqualRan = false;
+    } else {
+        if (a == undefined) {
+            opr = this.textContent;    
+            a = digitsDisplay;
+            display1.textContent += `${digitsDisplay} ${this.textContent} `;
+        }
+        digitsDisplay = '';
+        if (b) {
+            display1.textContent += `${b} ${this.textContent} `;
+            integerFix();
+            operateMethod(num1, num2, opr);
             a = result;
             opr = this.textContent;
-            digitsDisplay = '';
-            display1.textContent = '';
-            display1.textContent = `${a} ${this.textContent}`
-            isEqualRan = false;
-        } else {
-            if (a == undefined) {
-                opr = this.textContent;    
-                a = digitsDisplay;
-                display1.textContent += `${digitsDisplay} ${this.textContent} `;
-            }
-            digitsDisplay = '';
-            if (b) {
-                display1.textContent += `${b} ${this.textContent} `;
-                integerFix();
-                operateMethod(num1, num2, opr);
-                a = result;
-                opr = this.textContent;
-            }
         }
-    })
-})
+    }
+}
 
-cancelFunc.addEventListener('click', function(e) {
-    cancel();
-})
+cancelFunc.addEventListener('click', cancel);
 
-const cancel = () => {
+function cancel () {
     display1.textContent = '';
     display2.textContent = '';
     digitsDisplay = '';
@@ -210,7 +242,9 @@ const cancel = () => {
     isEqualRan = false;
 }
 
-delFunc.addEventListener('click', function(e) {
+delFunc.addEventListener('click', deleteNum);
+
+function deleteNum () {
     if (b) {
         digitsDisplay = digitsDisplay.slice(0, -1);
         display2.textContent = digitsDisplay;
@@ -220,7 +254,7 @@ delFunc.addEventListener('click', function(e) {
         digitsDisplay = digitsDisplay.slice(0, -1);
         display2.textContent = digitsDisplay;
     }
-})
+}
 
 signFunc.addEventListener('click', function(e) {
     if (digitsDisplay === '') {
