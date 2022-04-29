@@ -44,50 +44,23 @@ body {
 }
 
 .display1 {
-    display: flex;
-    justify-content: flex-end;
-    border-style: solid;
+    text-align-last: right;
+    overflow-wrap: break-word;
     width: 440px;
     min-height: 55px;
     max-height: 130px;
+    font-size: 20px;
+    color: #03DAC6;
 }
 
 .display2 {
-    
-    
-    justify-content: flex-end;
+    text-align-last: right;
     overflow-wrap: break-word;
-    border-style: solid;
     width: 440px;
     min-height: 50px;
     max-height: 170px;
-}
-
-/* .display1 {
-    border-style: solid;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    flex: 1 1;
-    font-size: 17px;
-    color: #03DAC6;
-    margin-top: 5px;
-    width: 435px;
-    height: 90px;
-}
-
-.display2 {
-    border-style: solid;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    flex: 1 1;
-    width: 435px;
-    height: 120px;
-    margin-top: 15px;
     font-size: 50px;
-    color: #FFFFFF;
-} */
+}
 
 .btn-area {
     width: 480px;

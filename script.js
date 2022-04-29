@@ -126,6 +126,9 @@ const operatorArray = ['/', 'x', '-', '+'];
 
 window.addEventListener('keydown', function(e) {
     const keyboardFunc = document.querySelector(`button[data-key = "${e.code}"]`);
+    if (!keyboardFunc) {
+        return 1;
+    }
     if (numArray.includes(keyboardFunc.textContent)) {
         this.textContent = keyboardFunc.textContent;
         registerNumBtn();
